@@ -765,6 +765,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="byg-pg-OZ9" id="imS-Bj-P4c"/>
                         <outlet property="loginLogoutButton" destination="rDW-eT-0gP" id="YwB-Xn-dDe"/>
                     </connections>
                 </viewController>

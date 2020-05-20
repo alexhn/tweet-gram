@@ -9,12 +9,17 @@
 import Cocoa
 import OAuthSwift
 import SwiftyJSON
+import Kingfisher
 
-class ViewController: NSViewController {
-
+class ViewController: NSViewController, NSCollectionViewDataSource, NSCollectionViewDelegate {
+    
     @IBOutlet weak var loginLogoutButton: NSButton!
     
     var isLoggedIn = false
+    
+    @IBOutlet weak var collectionView: NSCollectionView!
+    
+    var imageURLs : [String] = []
     
     let oauthswift = OAuth1Swift(
         consumerKey: "",
@@ -25,7 +30,27 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let layout = NSCollectionViewFlowLayout()
+        layout.itemSize = NSSize(width: 100, height: 100)
+        layout.sectionInset = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumLineSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        collectionView.collectionViewLayout = layout
+        collectionView.dataSource = self
+        collectionView.delegate = self
         checkLogin()
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageURLs.count
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "TweetGramItem"), for: indexPath)
+        let url = URL(string: imageURLs[indexPath.item])
+        item.imageView?.kf.setImage(with: url)
+        return item
     }
     
     func checkLogin() {
@@ -65,17 +90,17 @@ class ViewController: NSViewController {
             case .success(let response):
                 let json = JSON(response.data)
                 
-                var imageURLs : [String] = []
-                
                 for (_, tweetJson):(String, JSON) in json {
                     let mediaJsonArray = tweetJson["entities"]["media"]
                     for (_,mediaJson):(String, JSON) in mediaJsonArray {
                         let imageURL = mediaJson["media_url_https"]
-                        imageURLs.append(imageURL.stringValue)
+                        self.imageURLs.append(imageURL.stringValue)
                     }
                 }
                 
-                print(imageURLs)
+                print(self.imageURLs)
+                
+                self.collectionView.reloadData()
                 
             case .failure(let error):
                 print(error)
