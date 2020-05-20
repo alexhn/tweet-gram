@@ -20,6 +20,7 @@ class ViewController: NSViewController, NSCollectionViewDataSource, NSCollection
     @IBOutlet weak var collectionView: NSCollectionView!
     
     var imageURLs : [String] = []
+    var tweetURLS : [String] = []
     
     let oauthswift = OAuth1Swift(
         consumerKey: "",
@@ -32,7 +33,7 @@ class ViewController: NSViewController, NSCollectionViewDataSource, NSCollection
         super.viewDidLoad()
         
         let layout = NSCollectionViewFlowLayout()
-        layout.itemSize = NSSize(width: 100, height: 100)
+        layout.itemSize = NSSize(width: 200, height: 200)
         layout.sectionInset = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumLineSpacing = 5.0
         layout.minimumInteritemSpacing = 5.0
@@ -44,6 +45,16 @@ class ViewController: NSViewController, NSCollectionViewDataSource, NSCollection
     
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageURLs.count
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+        collectionView.deselectAll(nil)
+        if let indexPath = indexPaths.first {
+            let url = tweetURLS[indexPath.item]
+            if let urlObj = URL(string: url) {
+                NSWorkspace.shared.open(urlObj)
+            }
+        }
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
@@ -85,7 +96,8 @@ class ViewController: NSViewController, NSCollectionViewDataSource, NSCollection
     }
     
     func getImages() {
-        let _ = oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json",parameters: ["tweet_mode":"extended"]) { result in
+        let _ = oauthswift.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json",
+                                      parameters: ["tweet_mode":"extended", "count": "200"]) { result in
             switch result {
             case .success(let response):
                 let json = JSON(response.data)
@@ -94,11 +106,13 @@ class ViewController: NSViewController, NSCollectionViewDataSource, NSCollection
                     let mediaJsonArray = tweetJson["entities"]["media"]
                     for (_,mediaJson):(String, JSON) in mediaJsonArray {
                         let imageURL = mediaJson["media_url_https"]
+                        let expandedURL = mediaJson["expanded_url"]
                         self.imageURLs.append(imageURL.stringValue)
+                        self.tweetURLS.append(expandedURL.stringValue)
                     }
                 }
                 
-                print(self.imageURLs)
+                print(self.tweetURLS)
                 
                 self.collectionView.reloadData()
                 
