@@ -14,24 +14,45 @@ class ViewController: NSViewController {
 
     @IBOutlet weak var loginLogoutButton: NSButton!
     
+    var isLoggedIn = false
+    
     let oauthswift = OAuth1Swift(
-        consumerKey: "qMBDCwcGA0SJmHddUmBmA",
-        consumerSecret: "OP9yTz5d0VEjAdT34clC1cXetgxKlWBTQEwU2HeZWI",
+        consumerKey: "",
+        consumerSecret: "",
         requestTokenUrl: "https://api.twitter.com/oauth/request_token",
         authorizeUrl: "https://api.twitter.com/oauth/authorize",
         accessTokenUrl: "https://api.twitter.com/oauth/access_token")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        logIn()
+        checkLogin()
+    }
+    
+    func checkLogin() {
+        if let oauthToken = UserDefaults.standard.string(forKey: "oauthToken") {
+            if let oauthTokenSecret = UserDefaults.standard.string(forKey: "oauthTokenSecret") {
+                oauthswift.client.credential.oauthToken = oauthToken
+                oauthswift.client.credential.oauthTokenSecret = oauthTokenSecret
+                loginLogoutButton.title = "Logout"
+                isLoggedIn = true
+                getImages()
+            }
+        }
     }
 
     func logIn() {
         _ = oauthswift.authorize(withCallbackURL: "TweetGram://") {
              result in
                 switch result {
-                    case .success(let (_, _, _)):
-                      self.getImages()
+                    case .success(let (credential, _, _)):
+                        let oauthToken = credential.oauthToken
+                        let oauthTokenSecret = credential.oauthTokenSecret
+                        UserDefaults.standard.set(oauthToken, forKey: "oauthToken")
+                        UserDefaults.standard.set(oauthTokenSecret, forKey: "oauthTokenSecret")
+                        UserDefaults.standard.synchronize()
+                        self.isLoggedIn = true
+                        self.loginLogoutButton.title = "Logout"
+                        self.getImages()
                     case .failure(let error):
                       print(error.localizedDescription)
                 }
@@ -61,9 +82,20 @@ class ViewController: NSViewController {
             }
         }
     }
+    
+    func logOut() {
+        isLoggedIn = false
+        loginLogoutButton.title = "Login"
+        UserDefaults.standard.removeObject(forKey: "oauthToken")
+        UserDefaults.standard.removeObject(forKey: "oauthTokenSecret")
+    }
 
     @IBAction func loginLogoutClicked(_ sender: Any) {
-        
+        if isLoggedIn {
+            logOut()
+        } else {
+            logIn()
+        }
     }
     
 }

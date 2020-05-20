@@ -706,11 +706,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="TweetGram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="665" height="401"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cc2-JJ-j5G">
-                                <rect key="frame" x="181" y="223" width="119" height="27"/>
+                                <rect key="frame" x="273" y="364" width="119" height="27"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="TweetGram" id="fKe-bf-YHm">
                                     <font key="font" metaFont="system" size="23"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -718,7 +718,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rDW-eT-0gP">
-                                <rect key="frame" x="203" y="185" width="74" height="32"/>
+                                <rect key="frame" x="296" y="326" width="74" height="32"/>
                                 <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aom-iD-Fdr">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -728,13 +728,13 @@
                                 </connections>
                             </button>
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aS-0h-gFt">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="172"/>
+                                <rect key="frame" x="0.0" y="0.0" width="665" height="323"/>
                                 <clipView key="contentView" id="kUK-zL-Di1">
-                                    <rect key="frame" x="1" y="1" width="478" height="170"/>
+                                    <rect key="frame" x="1" y="1" width="663" height="321"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView id="byg-pg-OZ9">
-                                            <rect key="frame" x="0.0" y="0.0" width="478" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="663" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="K18-pR-mte">
                                                 <size key="itemSize" width="50" height="50"/>
@@ -759,9 +759,9 @@
                             <constraint firstAttribute="bottom" secondItem="7aS-0h-gFt" secondAttribute="bottom" id="ebD-qd-L03"/>
                             <constraint firstItem="7aS-0h-gFt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ebg-pF-0JW"/>
                             <constraint firstItem="cc2-JJ-j5G" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="f9n-tk-Esy"/>
-                            <constraint firstItem="cc2-JJ-j5G" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="jKE-OA-TZa"/>
+                            <constraint firstItem="cc2-JJ-j5G" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="jKE-OA-TZa"/>
                             <constraint firstAttribute="trailing" secondItem="7aS-0h-gFt" secondAttribute="trailing" id="kb3-v9-Wez"/>
-                            <constraint firstItem="7aS-0h-gFt" firstAttribute="top" secondItem="rDW-eT-0gP" secondAttribute="bottom" constant="20" id="tne-LC-MEN"/>
+                            <constraint firstItem="7aS-0h-gFt" firstAttribute="top" secondItem="rDW-eT-0gP" secondAttribute="bottom" constant="10" id="tne-LC-MEN"/>
                         </constraints>
                     </view>
                     <connections>
@@ -770,7 +770,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="167.5" y="720.5"/>
         </scene>
     </scenes>
 </document>
